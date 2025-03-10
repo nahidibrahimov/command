@@ -33,10 +33,7 @@ public class MailTaskRunner implements Runnable {
             synchronized (commands) {
                 if (commands.isEmpty()) {
                     try {
-                        System.out.println("inside empty check if");
-                        System.out.println("run:" + thread.getState());
                         commands.wait();
-                        System.out.println("changed to wait");
                     } catch (InterruptedException e) {
                         System.out.println("Interrupted while waiting for commands");
                         if (stop) {
@@ -58,14 +55,7 @@ public class MailTaskRunner implements Runnable {
     }
 
     public void addCommand(Command cmd) {
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         synchronized (commands) {
-            System.out.println("adding command");
-            System.out.println("addCommand:" + thread.getState());
             commands.add(cmd);
             commands.notifyAll();
         }
